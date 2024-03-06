@@ -28,10 +28,7 @@ function Home() {
 
   const handleCheckboxChange = (index: number) => {
     const updatedData = [...data];
-    updatedData[index] = {
-      ...updatedData[index],
-      completed: !updatedData[index].completed,
-    };
+    updatedData[index].completed = !updatedData[index].completed;
     setData(updatedData);
   };
 
@@ -74,6 +71,7 @@ function Home() {
                 <div className="grid grid-cols-3">
                   <input
                     type="checkbox"
+                    defaultChecked
                     checked={item.completed}
                     className="checkbox checkbox-md"
                     onChange={() => handleCheckboxChange(index)}
