@@ -14,7 +14,6 @@ function Home() {
       try {
         const response = await axios.get("https://dummyjson.com/todos");
         setData(response.data.todos);
-        console.log(response.data.todos);
       } catch (error) {
         console.log(error);
       }
@@ -29,7 +28,10 @@ function Home() {
 
   const handleCheckboxChange = (index: number) => {
     const updatedData = [...data];
-    updatedData[index].completed = !updatedData[index].completed;
+    updatedData[index] = {
+      ...updatedData[index],
+      completed: !updatedData[index].completed,
+    };
     setData(updatedData);
   };
 
@@ -55,56 +57,53 @@ function Home() {
     setSelectedTask(null);
   };
   return (
-    <>
-      <div className="px-40 py-5 ">
-        <div className="card w-full bg-base-300 shadow-xl px-16">
-          <AddTask onTaskAdded={handleTaskAdded} />
-          <div className="py-10">
-            {data.map((item, index) => (
-              <div key={index}>
-                <div className="flex justify-between py-2">
-                  <div
-                    style={{
-                      textDecoration: item.completed ? "line-through" : "none",
-                    }}
-                  >
-                    {item.todo}
-                  </div>
-                  <div className="grid grid-cols-3">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      checked={item.completed}
-                      className="checkbox checkbox-md"
-                      onChange={() => handleCheckboxChange(index)}
-                    />
+    <div className="px-40 py-5 ">
+      <div className="card w-full bg-base-300 shadow-xl px-16">
+        <AddTask onTaskAdded={handleTaskAdded} />
+        <div className="py-10">
+          {data.map((item, index) => (
+            <div key={index}>
+              <div className="flex justify-between py-2">
+                <div
+                  style={{
+                    textDecoration: item.completed ? "line-through" : "none",
+                  }}
+                >
+                  {item.todo}
+                </div>
+                <div className="grid grid-cols-3">
+                  <input
+                    type="checkbox"
+                    checked={item.completed}
+                    className="checkbox checkbox-md"
+                    onChange={() => handleCheckboxChange(index)}
+                  />
 
-                    <Button
-                      label="Edit"
-                      className="btn btn-primary btn-sm"
-                      onClick={() => handleEditClick(item)}
-                    />
-                    <Button
-                      label="Remove"
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleRemoveClick(item.id)}
-                    />
-                  </div>
+                  <Button
+                    label="Edit"
+                    className="btn btn-primary btn-sm"
+                    onClick={() => handleEditClick(item)}
+                  />
+                  <Button
+                    label="Remove"
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleRemoveClick(item.id)}
+                  />
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-
-        {selectedTask && (
-          <EditTask
-            task={selectedTask}
-            onSave={handleSaveTask}
-            onCancel={handleCancelEdit}
-          />
-        )}
       </div>
-    </>
+
+      {selectedTask && (
+        <EditTask
+          task={selectedTask}
+          onSave={handleSaveTask}
+          onCancel={handleCancelEdit}
+        />
+      )}
+    </div>
   );
 }
 
