@@ -14,7 +14,6 @@ function Home() {
       try {
         const response = await axios.get("https://dummyjson.com/todos");
         setData(response.data.todos);
-        console.log(response.data.todos);
       } catch (error) {
         console.log(error);
       }
@@ -80,7 +79,6 @@ function Home() {
                   <div className="grid grid-cols-3">
                     <input
                       type="checkbox"
-                      defaultChecked
                       checked={item.completed}
                       className="checkbox checkbox-md"
                       onChange={() => handleCheckboxChange(index)}
